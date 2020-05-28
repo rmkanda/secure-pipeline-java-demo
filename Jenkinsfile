@@ -25,7 +25,7 @@ spec:
 volumes:
 - name: m2
   hostPath:
-    path: /root/.m2/
+    path: /tmp/.m2/
 """
     }
   }
@@ -41,13 +41,10 @@ volumes:
     }
     stage('Static Analysis') {
         parallel {
-            stage('Test On Windows') {
+            stage('OWASP Dependency Checker') {
                 steps {
                     container('maven') {
-                        sh 'mvn -version'
-                    }
-                    container('busybox') {
-                        sh '/bin/busybox'
+                        sh 'mvn org.owasp:dependency-check-maven:check'
                     }
                 }
                 post {
@@ -56,30 +53,19 @@ volumes:
                     }
                 }
             }
-            stage('Test On Linux') {
+            stage('OWASP Spot Bugs') {
                 steps {
                     container('maven') {
                         sh 'mvn -version'
-                    }
-                    container('busybox') {
-                        sh '/bin/busybox'
-                    }
-                }
-                post {
-                    always {
-                        echo "success"
                     }
                 }
             }
         }
     }
-    stage('Run maven') {
+    stage('Build') {
       steps {
         container('maven') {
-          sh 'mvn -version'
-        }
-        container('busybox') {
-          sh '/bin/busybox'
+          sh 'mvn package'
         }
       }
     }
