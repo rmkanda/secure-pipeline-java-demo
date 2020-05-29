@@ -6,7 +6,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    some-label: some-label-value
+    app: spring-build-ci
 spec:
   containers:
   - name: maven
@@ -14,18 +14,18 @@ spec:
     command:
     - cat
     tty: true
-  - name: busybox
-    image: busybox
+    volumeMounts:
+    - name: m2
+      mountPath: /root/.m2/
+  - name: trufflehog
+    image: dxa4481/trufflehog
     command:
     - cat
     tty: true
-  volumeMounts:
+  volumes:
   - name: m2
-    mountPath: /root/.m2/
-volumes:
-- name: m2
-  hostPath:
-    path: /tmp/.m2/
+    hostPath:
+      path: /tmp/.m2/
 """
     }
   }
@@ -41,6 +41,14 @@ volumes:
     }
     stage('Static Analysis') {
         parallel {
+          stage('Secrets scanner') {
+                steps {
+                    container('trufflehog') {
+                        sh 'ls -al'
+                        sh 'trufflehog .'
+                    }
+                }
+            }
             stage('OWASP Dependency Checker') {
                 steps {
                     container('maven') {
