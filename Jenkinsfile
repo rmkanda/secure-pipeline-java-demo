@@ -1,7 +1,10 @@
 pipeline {
   agent {
     kubernetes {
+      label 'jenkins'
       yamlFile 'build-agent.yaml'
+      defaultContainer 'maven'
+      idleMinutes 1
     }
   }
   stages {
