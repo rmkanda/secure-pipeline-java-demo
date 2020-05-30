@@ -1,7 +1,6 @@
 pipeline {
   agent {
     kubernetes {
-      label 'jenkins'
       yamlFile 'build-agent.yaml'
       defaultContainer 'maven'
       idleMinutes 1
@@ -42,7 +41,7 @@ pipeline {
             stage('OWASP Spot Bugs') {
                 steps {
                     container('maven') {
-                        sh 'mvn -version'
+                        sh 'mvn compile spotbugs:check'
                     }
                 }
             }
