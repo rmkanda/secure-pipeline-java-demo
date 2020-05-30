@@ -9,7 +9,6 @@ pipeline {
   stages {
     stage('Checkout & Build') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/rmkanda/spring-app-sample.git']]])
         container('maven') {
           sh 'ls -l'
           sh 'mvn install'
@@ -20,9 +19,8 @@ pipeline {
         parallel {
           stage('Secrets scanner') {
                 steps {
-                    container('trufflehog') {
+                    container('maven') {
                         sh 'ls -al'
-                        sh 'trufflehog .'
                     }
                 }
             }
@@ -51,6 +49,10 @@ pipeline {
       steps {
         container('maven') {
           sh 'mvn package'
+        }
+        container('docker-cmds') {
+          sh 'ls -al'
+          sh 'docker build . -t sample-app'
         }
       }
     }

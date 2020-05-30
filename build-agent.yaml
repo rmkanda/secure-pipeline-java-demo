@@ -18,7 +18,18 @@ spec:
       command:
         - cat
       tty: true
+    - name: docker-cmds
+      image: docker:latest
+      command:
+        - cat
+      tty: true
+      volumeMounts:
+        - mountPath: /var/run
+          name: docker-sock
   volumes:
     - name: m2
       hostPath:
         path: /tmp/.m2/
+    - name: docker-sock
+      hostPath:
+        path: /var/run
