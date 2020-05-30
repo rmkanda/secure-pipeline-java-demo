@@ -18,9 +18,11 @@ pipeline {
         }
         stage('Secrets scanner') {
           steps {
-            container('docker-cmds') {
-              sh "docker pull dxa4481/trufflehog"
-              sh 'docker run -v $(pwd):/proj/ dxa4481/trufflehog .'
+            container('trufflehog') {
+              sh 'git clone https://github.com/rmkanda/spring-app-sample.git'
+              sh 'cd spring-app-sample && ls -al'
+              sh 'cd spring-app-sample && trufflehog .'
+              sh 'rm -rf spring-app-sample'
             }
           }
         }

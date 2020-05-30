@@ -13,11 +13,6 @@ spec:
       volumeMounts:
         - name: m2
           mountPath: /root/.m2/
-    - name: trufflehog
-      image: dxa4481/trufflehog
-      command:
-        - cat
-      tty: true
     - name: docker-cmds
       image: docker:latest
       command:
@@ -26,6 +21,11 @@ spec:
       volumeMounts:
         - mountPath: /var/run
           name: docker-sock
+    - name: trufflehog
+      image: rmkanda/trufflehog
+      command:
+        - cat
+      tty: true
   volumes:
     - name: m2
       hostPath:
