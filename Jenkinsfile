@@ -7,7 +7,7 @@ pipeline {
     }
   }
   stages {
-    stage('Checkout & Build') {
+    stage('Setup') {
       steps {
         container('maven') {
           sh 'ls -l'
@@ -19,8 +19,9 @@ pipeline {
         parallel {
           stage('Secrets scanner') {
                 steps {
-                    container('maven') {
-                        sh 'ls -al'
+                    container('docker-cmds') {
+                        sh "docker pull dxa4481/trufflehog"
+                        sh 'docker run -v $(pwd):/proj/ dxa4481/trufflehog /proj/'
                     }
                 }
             }
