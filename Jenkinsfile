@@ -1,32 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: spring-build-ci
-spec:
-  containers:
-  - name: maven
-    image: maven:alpine
-    command:
-    - cat
-    tty: true
-    volumeMounts:
-    - name: m2
-      mountPath: /root/.m2/
-  - name: trufflehog
-    image: dxa4481/trufflehog
-    command:
-    - cat
-    tty: true
-  volumes:
-  - name: m2
-    hostPath:
-      path: /tmp/.m2/
-"""
+      yamlFile 'build-agent.yaml'
     }
   }
   stages {
