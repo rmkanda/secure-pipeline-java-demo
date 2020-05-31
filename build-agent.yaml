@@ -14,7 +14,7 @@ spec:
         - name: m2
           mountPath: /root/.m2/
     - name: docker-cmds
-      image: docker:latest
+      image: docker
       command:
         - cat
       tty: true
@@ -23,6 +23,11 @@ spec:
           name: docker-sock
     - name: trufflehog
       image: rmkanda/trufflehog
+      command:
+        - cat
+      tty: true
+    - name: licensefinder
+      image: licensefinder/license_finder
       command:
         - cat
       tty: true
