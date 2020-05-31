@@ -1,0 +1,72 @@
+---
+- - :permit
+  - MIT
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2020-05-31 15:26:41.128239000 Z
+- - :permit
+  - Apache 2.0
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2020-05-31 15:26:45.261798000 Z
+- - :permit
+  - BSD
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2020-05-31 15:26:48.756587000 Z
+- - :permit
+  - BSD License 3
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2020-05-31 15:27:11.706253000 Z
+- - :permit
+  - EDL 1.0
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2020-05-31 15:27:21.894141000 Z
+- - :permit
+  - Eclipse Public License v2.0
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2020-05-31 15:27:29.688403000 Z
+- - :approve
+  - logback-core
+  - :who: 
+    :why: 
+    :versions:
+    - 1.2.3
+    :when: 2020-05-31 15:28:30.302764000 Z
+- - :approve
+  - logback-classic
+  - :who: 
+    :why: 
+    :versions:
+    - 1.2.3
+    :when: 2020-05-31 15:29:03.621478000 Z
+- - :approve
+  - jakarta.xml.bind-api
+  - :who: 
+    :why: 
+    :versions:
+    - 2.3.3
+    :when: 2020-05-31 15:29:19.300525000 Z
+- - :approve
+  - jakarta.el
+  - :who: 
+    :why: 
+    :versions:
+    - 3.0.3
+    :when: 2020-05-31 15:29:37.769070000 Z
+- - :approve
+  - jakarta.annotation-api
+  - :who: 
+    :why: 
+    :versions:
+    - 1.3.5
+    :when: 2020-05-31 15:29:53.045616000 Z
