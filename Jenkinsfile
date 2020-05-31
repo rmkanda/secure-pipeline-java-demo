@@ -62,6 +62,13 @@ pipeline {
             }
           }
         }
+        stage('SCA') {
+          steps {
+            container('maven') {
+              sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
+            }
+          }
+        }
       }
     }
     stage('Build') {
