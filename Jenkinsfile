@@ -12,7 +12,7 @@ pipeline {
         stage('Install Dependencies') {
           steps {
             container('maven') {
-              sh 'mvn install'
+              sh 'mvn install -DskipTests -Dspotbugs.skip=true -Ddependency-check.skip=true'
             }
           }
         }
@@ -53,7 +53,11 @@ pipeline {
           steps {
             container('licensefinder') {
               sh 'ls -al'
-              sh '/bin/bash --login && rvm use default && gem install license_finder'
+              bash '''#!/bin/bash
+                      /bin/bash --login
+                      rvm use default
+                      gem install license_finder
+                    '''
               sh 'license_finder'
             }
           }
