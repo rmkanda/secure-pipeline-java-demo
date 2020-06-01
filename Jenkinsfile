@@ -104,16 +104,12 @@ pipeline {
                   '''
               }
           }
-          post {
-            always {
-              echo 'success'
-            }
-          }
         }
         stage('Image Hardening') {
           steps {
-            container('maven') {
-              sh 'mvn --version'
+            container('dockle') {
+              sh 'ls -al'
+              sh 'dockle sample-app:latest'
             }
           }
         }
