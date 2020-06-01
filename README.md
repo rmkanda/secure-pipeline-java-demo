@@ -1,20 +1,23 @@
-# Secure Pipelines
+# Secure Pipelines Demo
 
 Sample spring application with Jenkins pipeline script to demontrate secure pipelines
-
-# Setps to setup
 
 ## Pre Requesites
 
 - minikube - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 - helm - [Refer here for installation](https://helm.sh/docs/intro/install/)
 
-## Steps
+## Setup Setps
+
+### Minikube setup
 
 - Setup minikube
   ```bash
   minikube start --memory 8000 --cpus=4
   ```
+
+### Jenkins setup
+
 - Stup Jenkins server
 
   ```bash
@@ -29,6 +32,8 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
   - Configuration as a code
   - Dependency Track
 
+### Dependency Track setup
+
 - Setup Dependency Track server
 
   ```bash
@@ -41,9 +46,22 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
   helm install dependency-track evryfs-oss/dependency-track --namespace dependency-track
   ```
 
-  **Note:** dependency-track will take some time to start (~1hr on low end mac)
+  **Note:** dependency-track will take some time to start (~1hr on low end Mac)
 
-- Create a new Jenkins pipeline with this repo and trigger build
+### Link Jenkins and Dependency Track
+
+- Login to Dependency track -> Administration -> Access Management -> Teams -> Click on Automation -> Copy the API Keys
+
+- Login to Jenkins -> Manage Jenkins -> Configure System -> Scroll to bottom -> Configure the Dependency-Track URL and API key -> Save
+
+### New Jenkins Pipeline
+
+Create a new Jenkins pipeline with this repo and trigger build
+
+- Login to Jenkins -> New Item -> Enter name and choose Pipeline -> Choose GitHub project and set project URL
+- Under pipeline section, Choose Pipeline script from SCM
+- Choose git as SCM and provide repo details
+- Save
 
 # Pipeline
 
@@ -60,3 +78,18 @@ Refer the below screenshot for the stages in the pipeline
 ##### Dependency Track
 
 ![Dependency Track View](imgs/Dependency_Track.png)
+
+## Tools
+
+| Stage                  | Tool                                                                      | Comments |
+| ---------------------- | ------------------------------------------------------------------------- | -------- |
+| Secrets Scanner        | [truffleHog](https://github.com/dxa4481/truffleHog)                       |          |
+| Dependency Checker     | [OWASP Dependency checker](https://jeremylong.github.io/DependencyCheck/) |          |
+| SAST                   | [OWASP Find Security Bugs](https://find-sec-bugs.github.io/)              |          |
+| OSS License Checker    | [LicenseFinder](https://github.com/pivotal/LicenseFinder)                 |          |
+| SCA                    | [Dependency Track](https://dependencytrack.org/)                          |          |
+| Image Scanner          | [Trivy](https://github.com/aquasecurity/trivy)                            |          |
+| Image Hardening        | [Dockle](https://github.com/goodwithtech/dockle)                          |          |
+| K8s Hardening          | [KubeSec](https://kubesec.io/)                                            |          |
+| Image Malware scanning | [ClamAV](https://github.com/openbridge/clamav)                            | TODO     |
+| DAST                   | [OWASP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/) | TODO     |
