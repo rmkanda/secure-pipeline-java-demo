@@ -33,3 +33,15 @@ Sample sprint application with Jenkins pipeline script to demontrate secure pipe
   ```
 
   Note: dependency-track will take some time to start
+
+- Create a new Jenkins pipeline with this repo and trigger build
+
+# Pipeline
+
+Refer the below screenshot for the stages in the pipeline
+
+![Pipeline View](imgs/Secure_Pipeline_2.png)
+
+![Stage View](imgs/Secure_Pipeline_1.png)
+
+![Dependency Track View](imgs/Dependency_Track.png)
