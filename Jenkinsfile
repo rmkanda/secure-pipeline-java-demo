@@ -38,7 +38,7 @@ pipeline {
           }
           post {
             always {
-              echo "success"
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
             }
           }
         }
@@ -66,6 +66,12 @@ pipeline {
           steps {
             container('maven') {
               sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
+            }
+          }
+          post {
+            success {
+              dependencyTrackPublisher artifact: 'target/bom.xml', projectId: 'ae9c8419-c166-45bf-90eb-1dd0af3509a4', synchronous: false
+              archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
             }
           }
         }
