@@ -30,7 +30,14 @@ pipeline {
     }
     stage('Static Analysis') {
       parallel {
-        stage('OWASP Dependency Checker') {
+        stage('Unit Tests') {
+          steps {
+            container('maven') {
+              sh 'mvn test'
+            }
+          }
+        }
+        stage('Dependency Checker') {
           steps {
             container('maven') {
               sh 'mvn org.owasp:dependency-check-maven:check'
@@ -42,7 +49,7 @@ pipeline {
             }
           }
         }
-        stage('OWASP Spot Bugs') {
+        stage('Spot Bugs - Security') {
           steps {
             container('maven') {
               sh 'mvn compile spotbugs:check'
@@ -57,7 +64,7 @@ pipeline {
                       /bin/bash --login
                       rvm use default
                       gem install license_finder
-                      #license_finder
+                      license_finder
                     '''
             }
           }
