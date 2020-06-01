@@ -108,15 +108,14 @@ pipeline {
         stage('Image Hardening') {
           steps {
             container('dockle') {
-              sh 'ls -al'
               sh 'dockle sample-app:latest'
             }
           }
         }
         stage('K8s Hardening') {
           steps {
-            container('maven') {
-              sh 'mvn --version'
+            container('docker-cmds') {
+              sh 'docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < pod.yaml'
             }
           }
         }

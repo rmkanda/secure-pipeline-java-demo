@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: spring-app
+spec:
+  containers:
+    - name: app
+      image: sample-app:latest
