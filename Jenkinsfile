@@ -100,7 +100,7 @@ pipeline {
                     wget https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
                     tar zxvf trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
                     mv trivy /usr/local/bin
-                    trivy --version
+                    trivy --cache-dir /tmp/trivycache/ sample-app:latest
                   '''
               }
           }

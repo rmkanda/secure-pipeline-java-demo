@@ -21,6 +21,8 @@ spec:
       volumeMounts:
         - mountPath: /var/run
           name: docker-sock
+        - mountPath: /tmp/trivycache/
+          name: trivycache
     - name: trufflehog
       image: rmkanda/trufflehog
       command:
@@ -38,3 +40,6 @@ spec:
     - name: docker-sock
       hostPath:
         path: /var/run
+    - name: trivycache
+      hostPath:
+        path: /tmp/trivycache/
