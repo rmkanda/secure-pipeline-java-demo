@@ -7,3 +7,18 @@ spec:
   containers:
     - name: app
       image: sample-app:latest
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - "ALL"
+          add: ["NET_ADMIN", "SYS_TIME"]
