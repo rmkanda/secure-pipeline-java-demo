@@ -14,7 +14,7 @@ spec:
         - name: m2
           mountPath: /root/.m2/
     - name: docker-cmds
-      image: docker
+      image: docker:stable-git
       command:
         - cat
       tty: true

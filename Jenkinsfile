@@ -57,7 +57,7 @@ pipeline {
                       /bin/bash --login
                       rvm use default
                       gem install license_finder
-                      license_finder
+                      #license_finder
                     '''
             }
           }
@@ -85,6 +85,44 @@ pipeline {
         container('docker-cmds') {
           sh 'ls -al'
           sh 'docker build . -t sample-app'
+        }
+      }
+    }
+    stage('Artefact Analysis') {
+      parallel {
+        stage('Image Scan') {
+          steps {
+            container('docker-cmds') {
+              sh '''#!/bin/sh
+                    apk add --update-cache --upgrade curl rpm
+                    export TRIVY_VERSION="0.8.0"
+                    echo $TRIVY_VERSION
+                    wget https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
+                    tar zxvf trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
+                    mv trivy /usr/local/bin
+                    trivy --version
+                  '''
+              }
+          }
+          post {
+            always {
+              echo 'success'
+            }
+          }
+        }
+        stage('Image Hardening') {
+          steps {
+            container('maven') {
+              sh 'mvn --version'
+            }
+          }
+        }
+        stage('K8s Hardening') {
+          steps {
+            container('maven') {
+              sh 'mvn --version'
+            }
+          }
         }
       }
     }
