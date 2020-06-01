@@ -19,10 +19,10 @@ pipeline {
         stage('Secrets scanner') {
           steps {
             container('trufflehog') {
-              sh 'git clone https://github.com/rmkanda/spring-app-sample.git'
-              sh 'cd spring-app-sample && ls -al'
-              sh 'cd spring-app-sample && trufflehog .'
-              sh 'rm -rf spring-app-sample'
+              sh 'git clone ${GIT_URL}'
+              sh 'cd secure-pipeline-java-demo && ls -al'
+              sh 'cd secure-pipeline-java-demo && trufflehog .'
+              sh 'rm -rf secure-pipeline-java-demo'
             }
           }
         }
