@@ -33,14 +33,6 @@ spec:
       command:
         - cat
       tty: true
-    - name: dockle
-      image: rmkanda/dockle
-      command:
-        - cat
-      tty: true
-      volumeMounts:
-        - mountPath: /var/run
-          name: docker-sock
   volumes:
     - name: m2
       hostPath:
