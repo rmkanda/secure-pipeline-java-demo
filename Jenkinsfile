@@ -119,8 +119,8 @@ pipeline {
         }
         stage('Image Hardening') {
           steps {
-            container('docker-cmds') {
-              sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock goodwithtech/dockle sample-app:latest'
+            container('dockle') {
+              sh 'dockle sample-app:latest'
             }
           }
         }
