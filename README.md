@@ -4,8 +4,8 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 
 ## Pre Requesites
 
-- minikube - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-- helm - [Refer here for installation](https://helm.sh/docs/intro/install/)
+- minikube v1.11.0 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- helm v3.2.1 - [Refer here for installation](https://helm.sh/docs/intro/install/)
 
 ## Setup Setps
 
@@ -13,7 +13,7 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 
 - Setup minikube
   ```bash
-  minikube start --memory 8000 --cpus=4
+  minikube start --memory 8000 --cpus=4 --disk-size 25GB
   ```
 
 ### Jenkins setup
@@ -29,8 +29,8 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 - Add additonal plugins to Jeninks server (Manage Jenkins -> Manage plugins)
 
   - BlueOcean
-  - Configuration as a code
-  - Dependency Track
+  - Configuration as Code
+  - OWASP Dependency-Track
 
 ### Dependency Track setup
 
@@ -53,6 +53,12 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 - Login to Dependency track -> Administration -> Access Management -> Teams -> Click on Automation -> Copy the API Keys
 
 - Login to Jenkins -> Manage Jenkins -> Configure System -> Scroll to bottom -> Configure the Dependency-Track URL and API key -> Save
+
+- Login to Dependency track -> Projects -> Create Project -> Fill Name and save -> Copy the UUID of the project from the URL
+
+- Update the UUID in the Jenkinsfile in the Depedency Track upload section
+
+  **Note:** This UUID step is not required ideally, Projects will get created automatically - Looks like some open issue
 
 ### New Jenkins Pipeline
 
