@@ -98,4 +98,4 @@ Refer the below screenshot for the stages in the pipeline
 | Image Hardening        | [Dockle](https://github.com/goodwithtech/dockle)                          |          |
 | K8s Hardening          | [KubeSec](https://kubesec.io/)                                            |          |
 | Image Malware scanning | [ClamAV](https://github.com/openbridge/clamav)                            | TODO     |
-| DAST                   | [OWASP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/) | TODO     |
+| DAST                   | [OWASP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/) |          |
