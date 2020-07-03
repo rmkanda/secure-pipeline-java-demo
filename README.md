@@ -21,6 +21,7 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 - Stup Jenkins server
 
   ```bash
+  helm repo add stable https://kubernetes-charts.storage.googleapis.com
   helm install jenkins stable/jenkins
   ```
 
