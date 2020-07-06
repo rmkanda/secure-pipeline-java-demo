@@ -77,6 +77,7 @@ Refer the below screenshot for the stages in the pipeline
 ##### Pipeline View
 
 ![Pipeline View](imgs/Secure_Pipeline_1.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frmkanda%2Fsecure-pipeline-java-demo.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Frmkanda%2Fsecure-pipeline-java-demo?ref=badge_shield)
 
 ##### Stage View
 
@@ -100,3 +101,7 @@ Refer the below screenshot for the stages in the pipeline
 | K8s Hardening          | [KubeSec](https://kubesec.io/)                                            |          |
 | Image Malware scanning | [ClamAV](https://github.com/openbridge/clamav)                            | TODO     |
 | DAST                   | [OWASP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/) |          |
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Frmkanda%2Fsecure-pipeline-java-demo.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Frmkanda%2Fsecure-pipeline-java-demo?ref=badge_large)
