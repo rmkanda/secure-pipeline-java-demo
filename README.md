@@ -4,7 +4,7 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 
 ## Pre Requesites
 
-- minikube v1.11.0 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- minikube v1.12.1 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 - helm v3.2.1 - [Refer here for installation](https://helm.sh/docs/intro/install/)
 
 ## Setup Setps
@@ -12,20 +12,28 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 ### Minikube setup
 
 - Setup minikube
-  ```bash
-  minikube start --memory 8000 --cpus=4 --disk-size 25GB
+  ```s
+  minikube start --nodes=1  --cpus=4 --memory=8g --disk-size=35g --embed-certs=true
   ```
 
 ### Jenkins setup
 
 - Stup Jenkins server
 
-  ```bash
+  ```s
   helm repo add stable https://kubernetes-charts.storage.googleapis.com
+  helm repo update
   helm install jenkins stable/jenkins
   ```
 
-  **Note:** make a note of the password
+  **Note:** Make a note of the password
+
+- [Optional] Forward Jenkins server port to access from local machine
+
+  ```s
+  kubectl port-forward svc/jenkins 8080:8080
+  open http://localhost:8080
+  ```
 
 - Add additonal plugins to Jeninks server (Manage Jenkins -> Manage plugins)
 
@@ -37,7 +45,7 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 
 - Setup Dependency Track server
 
-  ```bash
+  ```s
   helm repo add evryfs-oss https://evryfs.github.io/helm-charts/
 
   helm repo update
