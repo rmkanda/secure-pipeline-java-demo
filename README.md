@@ -1,6 +1,6 @@
 # Secure Pipelines Demo
 
-Sample spring application with Jenkins pipeline script to demontrate secure pipelines
+Sample spring application with Jenkins pipeline script to demonstrate secure pipelines
 
 ## Pre Requesites
 
@@ -13,7 +13,7 @@ Sample spring application with Jenkins pipeline script to demontrate secure pipe
 
 - Setup minikube
   ```s
-  minikube start --nodes=1  --cpus=4 --memory=8g --disk-size=35g --embed-certs=true
+  minikube start --nodes=1 --cpus=4 --memory=8g --disk-size=35g --embed-certs=true
   ```
 
 ### Jenkins setup

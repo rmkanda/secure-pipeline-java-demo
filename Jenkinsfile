@@ -28,6 +28,13 @@ pipeline {
         }
       }
     }
+    stage('Build') {
+      steps {
+        container('maven') {
+          sh 'mvn package'
+        }
+      }
+    }
     stage('Static Analysis') {
       parallel {
         stage('Unit Tests') {
@@ -89,11 +96,8 @@ pipeline {
         }
       }
     }
-    stage('Build') {
+    stage('Package') {
       steps {
-        container('maven') {
-          sh 'mvn package'
-        }
         container('docker-cmds') {
           sh 'ls -al'
           sh 'docker build . -t sample-app'
