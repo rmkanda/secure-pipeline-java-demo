@@ -4,8 +4,8 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 ## Pre Requesites
 
-- minikube v1.12.1 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-- helm v3.2.1 - [Refer here for installation](https://helm.sh/docs/intro/install/)
+- minikube v1.12.3 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- helm v3.3.1 - [Refer here for installation](https://helm.sh/docs/intro/install/)
 
 ## Setup Setps
 
@@ -13,7 +13,7 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 - Setup minikube
   ```s
-  minikube start --nodes=1 --cpus=4 --memory=8g --disk-size=35g --embed-certs=true
+  minikube start --nodes=1 --cpus=4 --memory 8192 --disk-size=35g --embed-certs=true
   ```
 
 ### Jenkins setup
@@ -53,6 +53,9 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
   kubectl create ns dependency-track
 
   helm install dependency-track evryfs-oss/dependency-track --namespace dependency-track
+
+  kubectl port-forward svc/dependency-track 8081:80 -n dependency-track
+  open http://localhost:8081
   ```
 
   **Note:** dependency-track will take some time to start (~1hr on low end Mac)
@@ -67,7 +70,9 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 - Update the UUID in the Jenkinsfile in the Depedency Track upload section
 
-  **Note:** This UUID step is not required ideally, Projects will get created automatically - Looks like some open issue
+Hint: URL (if you have followed the exact steps) http://dependency-track.dependency-track.svc.cluster.local
+
+**Note:** This UUID step is not required ideally, Projects will get created automatically - Looks like some open issue
 
 ### New Jenkins Pipeline
 
@@ -96,15 +101,21 @@ Refer the below screenshot for the stages in the pipeline
 
 ## Tools
 
-| Stage                  | Tool                                                                      | Comments |
-| ---------------------- | ------------------------------------------------------------------------- | -------- |
-| Secrets Scanner        | [truffleHog](https://github.com/dxa4481/truffleHog)                       |          |
-| Dependency Checker     | [OWASP Dependency checker](https://jeremylong.github.io/DependencyCheck/) |          |
-| SAST                   | [OWASP Find Security Bugs](https://find-sec-bugs.github.io/)              |          |
-| OSS License Checker    | [LicenseFinder](https://github.com/pivotal/LicenseFinder)                 |          |
-| SCA                    | [Dependency Track](https://dependencytrack.org/)                          |          |
-| Image Scanner          | [Trivy](https://github.com/aquasecurity/trivy)                            |          |
-| Image Hardening        | [Dockle](https://github.com/goodwithtech/dockle)                          |          |
-| K8s Hardening          | [KubeSec](https://kubesec.io/)                                            |          |
-| Image Malware scanning | [ClamAV](https://github.com/openbridge/clamav)                            | TODO     |
-| DAST                   | [OWASP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/) |          |
+| Stage               | Tool                                                                      |
+| ------------------- | ------------------------------------------------------------------------- |
+| Secrets Scanner     | [truffleHog](https://github.com/dxa4481/truffleHog)                       |
+| Dependency Checker  | [OWASP Dependency checker](https://jeremylong.github.io/DependencyCheck/) |
+| SAST                | [OWASP Find Security Bugs](https://find-sec-bugs.github.io/)              |
+| OSS License Checker | [LicenseFinder](https://github.com/pivotal/LicenseFinder)                 |
+| SCA                 | [Dependency Track](https://dependencytrack.org/)                          |
+| Image Scanner       | [Trivy](https://github.com/aquasecurity/trivy)                            |
+| Image Hardening     | [Dockle](https://github.com/goodwithtech/dockle)                          |
+| K8s Hardening       | [KubeSec](https://kubesec.io/)                                            |
+| IaC Hardening       | [checkov](https://www.checkov.io/)                                        |
+| DAST                | [OWASP Baseline Scan](https://www.zaproxy.org/docs/docker/baseline-scan/) |
+
+---
+
+### TODO
+
+Image Malware scanning - [ClamAV](https://github.com/openbridge/clamav)

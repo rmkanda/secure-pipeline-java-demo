@@ -47,7 +47,9 @@ pipeline {
         stage('Dependency Checker') {
           steps {
             container('maven') {
-              sh 'mvn org.owasp:dependency-check-maven:check'
+              catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                sh 'mvn org.owasp:dependency-check-maven:check'
+              }
             }
           }
           post {
@@ -89,7 +91,7 @@ pipeline {
           }
           post {
             success {
-              dependencyTrackPublisher artifact: 'target/bom.xml', projectId: '77871267-ae32-447f-8ea1-cc4b0e3145ad', synchronous: false
+              dependencyTrackPublisher artifact: 'target/bom.xml', projectId: '9110e2e4-bc2e-47b7-9967-ade239b0edf5', synchronous: false
               archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
             }
           }
