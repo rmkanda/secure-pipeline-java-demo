@@ -4,7 +4,7 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 ## Pre Requesites
 
-- minikube v1.12.3 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- minikube v1.13.0 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 - helm v3.3.1 - [Refer here for installation](https://helm.sh/docs/intro/install/)
 
 ## Setup Setps
@@ -21,9 +21,9 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 - Stup Jenkins server
 
   ```s
-  helm repo add stable https://kubernetes-charts.storage.googleapis.com
+  helm repo add jenkinsci https://charts.jenkins.io
   helm repo update
-  helm install jenkins stable/jenkins
+  helm install jenkins jenkinsci/jenkins
   ```
 
   **Note:** Make a note of the password
