@@ -55,6 +55,7 @@ pipeline {
           post {
             always {
               archiveArtifacts allowEmptyArchive: true, artifacts: 'target/dependency-check-report.html', fingerprint: true, onlyIfSuccessful: true
+              // dependencyCheckPublisher pattern: 'report.xml'
             }
           }
         }
@@ -91,7 +92,7 @@ pipeline {
           }
           post {
             success {
-              dependencyTrackPublisher artifact: 'target/bom.xml', projectId: '9110e2e4-bc2e-47b7-9967-ade239b0edf5', synchronous: false
+              dependencyTrackPublisher projectName: 'sample-spring-app', projectVersion: '0.0.1', artifact: 'target/bom.xml', autoCreateProjects: true, synchronous: true
               archiveArtifacts allowEmptyArchive: true, artifacts: 'target/bom.xml', fingerprint: true, onlyIfSuccessful: true
             }
           }
@@ -100,7 +101,7 @@ pipeline {
     }
     stage('Package') {
       steps {
-        container('docker-cmds') {
+        container('docker-tools') {
           sh 'ls -al'
           sh 'docker build . -t sample-app'
         }
@@ -110,30 +111,22 @@ pipeline {
       parallel {
         stage('Image Scan') {
           steps {
-            container('docker-cmds') {
-              sh '''#!/bin/sh
-                    apk add --update-cache --upgrade curl rpm
-                    export TRIVY_VERSION="0.8.0"
-                    echo $TRIVY_VERSION
-                    wget https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
-                    tar zxvf trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
-                    mv trivy /usr/local/bin
-                    trivy --cache-dir /tmp/trivycache/ sample-app:latest
-                  '''
+            container('docker-tools') {
+              sh 'grype sample-app:latest'
               }
           }
         }
         stage('Image Hardening') {
           steps {
-            container('dockle') {
+            container('docker-tools') {
               sh 'dockle sample-app:latest'
             }
           }
         }
         stage('K8s Hardening') {
           steps {
-            container('docker-cmds') {
-              sh 'docker run -i kubesec/kubesec:512c5e0 scan /dev/stdin < pod.yaml'
+            container('docker-tools') {
+              sh 'kubesec scan pod.yaml'
             }
           }
         }
@@ -154,7 +147,7 @@ pipeline {
         }
         stage('DAST') {
           steps {
-            container('docker-cmds') {
+            container('docker-tools') {
               sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t https://www.zaproxy.org/ || exit 0'
             }
           }

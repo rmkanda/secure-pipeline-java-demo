@@ -4,8 +4,8 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 ## Pre Requesites
 
-- minikube v1.13.0 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-- helm v3.3.1 - [Refer here for installation](https://helm.sh/docs/intro/install/)
+- minikube v1.18.1 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- helm v3.5.3 - [Refer here for installation](https://helm.sh/docs/intro/install/)
 
 ## Setup Setps
 
@@ -13,7 +13,7 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 - Setup minikube
   ```s
-  minikube start --nodes=1 --cpus=4 --memory 8192 --disk-size=35g --embed-certs=true
+  minikube start --nodes=1 --cpus=4 --memory 8192 --disk-size=35g --embed-certs=true --driver=hyperkit
   ```
 
 ### Jenkins setup
@@ -21,9 +21,16 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 - Stup Jenkins server
 
   ```s
-  helm repo add jenkinsci https://charts.jenkins.io
+  helm repo add jenkins https://charts.jenkins.io
   helm repo update
-  helm install jenkins jenkinsci/jenkins
+  helm install jenkins jenkins/jenkins
+  ```
+
+- Wait for the jenkins pod to start
+- Get admin user password of Jenkins
+
+  ```s
+    kubectl exec --namespace default -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
   ```
 
   **Note:** Make a note of the password
@@ -43,36 +50,17 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 ### Dependency Track setup
 
-- Setup Dependency Track server
-
-  ```s
-  helm repo add evryfs-oss https://evryfs.github.io/helm-charts/
-
-  helm repo update
-
-  kubectl create ns dependency-track
-
-  helm install dependency-track evryfs-oss/dependency-track --namespace dependency-track
-
-  kubectl port-forward svc/dependency-track 8081:80 -n dependency-track
-  open http://localhost:8081
-  ```
+- Refer [Dependency Track v4 Installation Guide](DEPENDENCY_TRACK.md)
 
   **Note:** dependency-track will take some time to start (~1hr on low end Mac)
 
 ### Link Jenkins and Dependency Track
 
-- Login to Dependency track -> Administration -> Access Management -> Teams -> Click on Automation -> Copy the API Keys
+- Login to Dependency track -> Administration -> Access Management -> Teams -> Click on Automation -> Copy the API Keys -> Also add the Permissions - PROJECT_CREATION_UPLOAD, POLICY_VIOLATION_ANALYSIS, VULNERABILITY_ANALYSIS
 
-- Login to Jenkins -> Manage Jenkins -> Configure System -> Scroll to bottom -> Configure the Dependency-Track URL and API key -> Save
+- Login to Jenkins -> Manage Jenkins -> Configure System -> Scroll to bottom -> Configure the Dependency-Track URL and API key -> Also enable Auto Create Projects -> Test Connection -> Save
 
-- Login to Dependency track -> Projects -> Create Project -> Fill Name and save -> Copy the UUID of the project from the URL
-
-- Update the UUID in the Jenkinsfile in the Depedency Track upload section
-
-Hint: URL (if you have followed the exact steps) http://dependency-track.dependency-track.svc.cluster.local
-
-**Note:** This UUID step is not required ideally, Projects will get created automatically - Looks like some open issue
+Hint: URL (if you have followed the exact steps) http://dependency-track-apiserver.dependency-track.svc.cluster.local
 
 ### New Jenkins Pipeline
 
