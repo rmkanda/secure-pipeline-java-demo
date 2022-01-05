@@ -4,8 +4,8 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 ## Pre Requesites
 
-- minikube v1.18.1 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
-- helm v3.5.3 - [Refer here for installation](https://helm.sh/docs/intro/install/)
+- minikube v1.24.0 - [Refer here for installation](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+- helm v3.7.2 - [Refer here for installation](https://helm.sh/docs/intro/install/)
 
 ## Setup Setps
 
@@ -14,6 +14,7 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 - Setup minikube
   ```s
   minikube start --nodes=1 --cpus=4 --memory 8192 --disk-size=35g --embed-certs=true --driver=hyperkit
+  minikube addons enable ingress
   ```
 
 ### Jenkins setup
@@ -60,7 +61,8 @@ Sample spring application with Jenkins pipeline script to demonstrate secure pip
 
 - Login to Jenkins -> Manage Jenkins -> Configure System -> Scroll to bottom -> Configure the Dependency-Track URL and API key -> Also enable Auto Create Projects -> Test Connection -> Save
 
-Hint: URL (if you have followed the exact steps) http://dependency-track-apiserver.dependency-track.svc.cluster.local
+**Hint:** URL (if you have followed the exact steps) http://dependency-track-apiserver.deptrack.svc.cluster.local
+(Format: severiceName.namespace.svc.cluster.local)
 
 ### New Jenkins Pipeline
 
